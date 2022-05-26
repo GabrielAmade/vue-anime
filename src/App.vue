@@ -2,7 +2,7 @@
   <div class="app">
     <header>
       <h1>The <strong>Anime</strong>Database</h1>
-      <form class="search-box">
+      <form class="search-box" @submit.prevent="HandleSearch">
         <input
           type="search"
           class="search-field"
@@ -14,7 +14,11 @@
     </header>
     <main>
       <div class="cards">
-        <CardAnime/>
+        <CardAnime 
+        v-for="anime in animeList" 
+        :key="anime.mal_id"
+        :anime="anime"
+        />
       </div>
     </main>
   </div>
@@ -27,8 +31,21 @@ import CardAnime from "./components/CardAnime.vue"
 export default {
   setup(){
       const search_query = ref("");
+      const animeList = ref([]);
+
+      const HandleSearch = async () => {
+        animeList.value = await fetch(`https://api.jikan.moe/v3/search/anime?q=${search_query.value}`)
+          .then(res => res.json())
+          .then(data => data.results);
+
+      search_query.value = ""
+
+      }
     return {
-      search_query
+      search_query,
+      animeList,
+      HandleSearch,
+      
     }
   },
   name: "App",

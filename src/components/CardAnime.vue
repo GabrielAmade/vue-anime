@@ -1,9 +1,9 @@
 <template>
 <div class="card">
-<a href="#" target="_blank">
-<img src="https://placehold.it/150x250" alt="Anime Poster Image">
+<a :href="anime.url" target="_blank">
+<img :src="anime.image_url">
 
-    <h3>Naruto</h3>
+    <h3>{{anime.title}}</h3>
 </a>
 </div>
 </template>
@@ -11,6 +11,7 @@
 <script>
 export default {
     name: "CardAnime",
+    props: ['anime']
 }
 </script>
 
